@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Grid, Button } from "semantic-ui-react";
 import EventList from "../EventList/EventList";
 import EventForm from "../EventForm/EventForm";
+import cuid from "cuid";
 
 const eventsFromDashboard = [
   {
@@ -68,6 +69,17 @@ class EventsDashboard extends Component {
     }));
   };
 
+  handleCreateEvent = newEvent => {
+    newEvent.id = cuid();
+    newEvent.hostPhotoURL = "/assets/user.png";
+
+    // spread operator
+    // use the events from our state, and add our current array of events to it.
+    this.setState(({ events }) => ({
+      events: [...events, newEvent]
+    }));
+  };
+
   render() {
     const { events, isOpen } = this.state;
     return (
@@ -86,7 +98,12 @@ class EventsDashboard extends Component {
           truthy, it returns the second object. Source:
           https://www.nfriedly.com/techblog/2009/07/advanced-javascript-operators-and-truthy-falsy/*/}
           {/* EventForm is a child component of the EventFormDashboard, we are changing it from the child component and thus affecting the state in the parent component(EventsDashboard.jsx) this is what is referred to as inverse data flow*/}
-          {isOpen && <EventForm cancelFormOpen={this.handleIsOpenToggle} />}
+          {isOpen && (
+            <EventForm
+              createEvent={this.handleCreateEvent}
+              cancelFormOpen={this.handleIsOpenToggle}
+            />
+          )}
         </Grid.Column>
       </Grid>
     );
