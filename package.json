@@ -7,6 +7,8 @@
     "date-fns": "^2.0.0-alpha.27",
     "firebase": "^6.0.2",
     "google-map-react": "^1.1.4",
+    "lodash.template": "^4.5.0",
+    "mixin-deep": "^2.0.1",
     "moment": "^2.22.0",
     "react": "^16.8.6",
     "react-cropper": "^1.2.0",
@@ -27,7 +29,8 @@
     "redux-form": "^7.4.2",
     "redux-thunk": "^2.3.0",
     "revalidate": "^1.2.0",
-    "semantic-ui-react": "^0.87.1"
+    "semantic-ui-react": "^0.87.1",
+    "set-value": "^3.0.1"
   },
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
