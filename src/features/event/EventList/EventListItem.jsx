@@ -4,7 +4,7 @@ import EventListAttendee from "./EventListAttendee";
 
 class EventListItem extends Component {
   render() {
-    const { event } = this.props; // this is so it makes the code easier to read and so that we dont have to keep re-using 'this.props'
+    const { event, selectEvent, deleteEvent } = this.props; // this is so it makes the code easier to read and so that we dont have to keep re-using 'this.props'
     return (
       <Segment.Group>
         <Segment>
@@ -12,8 +12,8 @@ class EventListItem extends Component {
             <Item>
               <Item.Image size="tiny" circular src={event.hostPhotoURL} />
               <Item.Content>
-                <Item.Header>Event Title</Item.Header>
-                <Item.Description>Hosted by {event.hostBy}</Item.Description>
+                <Item.Header>{event.title}</Item.Header>
+                <Item.Description>Hosted by {event.hostedBy}</Item.Description>
               </Item.Content>
             </Item>
           </Item.Group>
@@ -37,7 +37,20 @@ class EventListItem extends Component {
         </Segment>
         <Segment clearing>
           <span>{event.description}</span>
-          <Button color="teal" floated="right" content="View" />
+          <Button
+            onClick={() => deleteEvent(event.id)}
+            as="a"
+            color="red"
+            floated="right"
+            content="Delete"
+          />
+          <Button
+            onClick={() => selectEvent(event)}
+            as="a"
+            color="teal"
+            floated="right"
+            content="View"
+          />
         </Segment>
       </Segment.Group>
     );

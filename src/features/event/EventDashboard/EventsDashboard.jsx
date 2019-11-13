@@ -8,7 +8,7 @@ const eventsFromDashboard = [
   {
     id: "1",
     title: "Trip to Tower of London",
-    date: "2018-03-27T11:00:00+00:00",
+    date: "2018-03-27",
     category: "culture",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin ligula eu leo tincidunt, quis scelerisque magna dapibus. Sed eget ipsum vel arcu vehicula ullamcorper.",
@@ -32,7 +32,7 @@ const eventsFromDashboard = [
   {
     id: "2",
     title: "Trip to Punch and Judy Pub",
-    date: "2018-03-28T14:00:00+00:00",
+    date: "2018-03-28",
     category: "drinks",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin ligula eu leo tincidunt, quis scelerisque magna dapibus. Sed eget ipsum vel arcu vehicula ullamcorper.",
@@ -58,15 +58,29 @@ const eventsFromDashboard = [
 class EventsDashboard extends Component {
   state = {
     events: eventsFromDashboard,
-    isOpen: false
+    isOpen: false,
+    selectedEvent: null
   };
 
   // toggle function for our isOpen state.
   // when it is called, set it opposite to its current value.. which will be true/false as it is a boolean
-  handleIsOpenToggle = () => {
-    this.setState(({ isOpen }) => ({
-      isOpen: !isOpen
-    }));
+  // handleIsOpenToggle = () => {
+  //   this.setState(({ isOpen }) => ({
+  //     isOpen: !isOpen
+  //   }));
+  // };
+
+  handleCreateFormOpen = () => {
+    this.setState({
+      isOpen: true,
+      selectedEvent: null
+    });
+  };
+
+  handleFormCancel = () => {
+    this.setState({
+      isOpen: false
+    });
   };
 
   handleCreateEvent = newEvent => {
@@ -76,21 +90,55 @@ class EventsDashboard extends Component {
     // spread operator
     // use the events from our state, and add our current array of events to it.
     this.setState(({ events }) => ({
-      events: [...events, newEvent]
+      events: [...events, newEvent],
+      isOpen: false
+    }));
+  };
+
+  // when called set selectedEvent to true and isOpen to
+  handleSelectedEvent = event => {
+    this.setState({
+      selectedEvent: event,
+      isOpen: true
+    });
+  };
+
+  handleUpdateEvent = updatedEvent => {
+    this.setState(({ events }) => ({
+      events: events.map(event => {
+        if (event.id === updatedEvent.id) {
+          return { ...updatedEvent }; // spread the event properties and return it as a new event inside our events array instead of our existing event
+        } else {
+          return event;
+        }
+      }),
+      isOpen: false,
+      selectedEvent: null
+    }));
+  };
+
+  handleDeleteEvent = id => {
+    this.setState(({ events }) => ({
+      // creates a new array and assign it to the events in state
+      events: events.filter(e => e.id !== id) // returns the elements of an array that meet the condition in the callback function
     }));
   };
 
   render() {
-    const { events, isOpen } = this.state;
+    const { events, isOpen, selectedEvent } = this.state;
     return (
       <Grid>
         <Grid.Column width={10}>
-          <EventList events={events} />
+          <EventList
+            events={events}
+            selectEvent={this.handleSelectedEvent}
+            deleteEvent={this.handleDeleteEvent}
+          />
         </Grid.Column>
         <Grid.Column width={6}>
           {/* on click, call the handleFormOpen arrow function */}
           <Button
-            onClick={this.handleIsOpenToggle}
+            onClick={this.handleCreateFormOpen}
             positive
             content="Create Event"
           />
@@ -100,8 +148,12 @@ class EventsDashboard extends Component {
           {/* EventForm is a child component of the EventFormDashboard, we are changing it from the child component and thus affecting the state in the parent component(EventsDashboard.jsx) this is what is referred to as inverse data flow*/}
           {isOpen && (
             <EventForm
+              // if there is a selected event, set the key value as the selectedEvents Id otherwise set the id to 0
+              key={selectedEvent ? selectedEvent.id : 0}
+              updateEvent={this.handleUpdateEvent}
+              selectedEvent={selectedEvent}
               createEvent={this.handleCreateEvent}
-              cancelFormOpen={this.handleIsOpenToggle}
+              cancelFormOpen={this.handleFormCancel}
             />
           )}
         </Grid.Column>
