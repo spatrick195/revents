@@ -103,5 +103,5 @@ class EventForm extends Component {
       </Segment>
     );
   }
-} // ree
+}
 export default EventForm;

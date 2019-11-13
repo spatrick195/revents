@@ -161,5 +161,5 @@ class EventsDashboard extends Component {
     );
   }
 }
-// ww
+
 export default EventsDashboard;
