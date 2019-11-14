@@ -1,14 +1,29 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { Segment, Form, Button } from "semantic-ui-react";
+import { createEvent, updateEvent } from "../eventActions";
+import cuid from "cuid";
+const mapState = (state, ownProps) => {
+  const eventId = ownProps.match.params.id;
 
-class EventForm extends Component {
-  state = {
+  let event = {
     title: "",
     date: "",
     city: "",
     venue: "",
     hostedBy: ""
   };
+
+  if (eventId && state.events.length > 0) {
+    event = state.events.filter(event => event.id === eventId)[0];
+  }
+  return { event };
+};
+
+const actions = { createEvent, updateEvent };
+
+class EventForm extends Component {
+  state = { ...this.props.event };
 
   componentDidMount() {
     if (this.props.selectedEvent !== null) {
@@ -24,8 +39,15 @@ class EventForm extends Component {
     // refs is available because EventForm extends component
     if (this.state.id) {
       this.props.updateEvent(this.state);
+      this.props.history.push(`/events/${this.state.id}`);
     } else {
-      this.props.createEvent(this.state);
+      const newEvent = {
+        ...this.state,
+        id: cuid(),
+        hostPhotoURL: "/assets/user.png"
+      };
+      this.props.createEvent(newEvent);
+      this.props.history.push(`/events/${newEvent.id}`);
     }
   };
 
@@ -40,7 +62,6 @@ class EventForm extends Component {
     // we use this in the event dashboard to set the toggle.
     // whenever we click create event, it will open the form and set state as true
     // whenever we click the cancel button it will toggle the state to false
-    const { cancelFormOpen } = this.props;
     const { title, date, city, venue, hostedBy } = this.state;
     return (
       <Segment>
@@ -96,7 +117,7 @@ class EventForm extends Component {
           <Button positive type="submit">
             Submit
           </Button>
-          <Button type="button" onClick={cancelFormOpen}>
+          <Button type="button" onClick={this.props.history.goBack}>
             Cancel
           </Button>
         </Form>
@@ -104,4 +125,4 @@ class EventForm extends Component {
     );
   }
 }
-export default EventForm;
+export default connect(mapState, actions)(EventForm);

@@ -3,7 +3,7 @@ import EventListItem from "./EventListItem";
 
 class EventList extends Component {
   render() {
-    const { events, selectEvent, deleteEvent } = this.props;
+    const { events, deleteEvent } = this.props;
     // loop over events with props object
     // props is just an object which contains attributes + their values that have been passed from the parent component
     // we use prop for passing data in a function
@@ -16,7 +16,6 @@ class EventList extends Component {
           <EventListItem
             key={event.id}
             event={event}
-            selectEvent={selectEvent}
             deleteEvent={deleteEvent}
           />
         ))}
