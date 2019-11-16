@@ -1,37 +1,35 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Grid } from "semantic-ui-react";
-import EventDetailedHeader from "./EventDetailedHeader";
-import EventDetailedInfo from "./EventDetailedInfo";
-import EventDetailedChat from "./EventDetailedChat";
-import EventDetailedSideBar from "./EventDetailedSideBar";
+import React from 'react';
+import { Grid } from 'semantic-ui-react';
+import {connect} from 'react-redux';
+import EventDetailedHeader from './EventDetailedHeader';
+import EventDetailedInfo from './EventDetailedInfo';
+import EventDetailedChat from './EventDetailedChat';
+import EventDetailedSidebar from './EventDetailedSidebar';
 
 const mapState = (state, ownProps) => {
-  const eventId = ownProps.match.params.id;
-  let event = {};
+    const eventId = ownProps.match.params.id;
 
-  if (eventId && state.events.length > 0) {
-    // returns a new array, even if only one item in the array so we index at 0
-    event = state.events.filter(event => event.id === eventId)[0];
-  }
+    let event = {};
 
-  return { event };
-};
+    if (eventId && state.events.length > 0) {
+        event = state.events.filter(event => event.id === eventId)[0]
+    }
 
-export const EventDetailedPage = ({ event }) => {
+    return {
+        event
+    }
+}
+
+const EventDetailedPage = ({event}) => {
   return (
     <Grid>
       <Grid.Column width={10}>
-        {/* EventDetailedHeader component */}
         <EventDetailedHeader event={event} />
-        {/* EventDetailedInfo component */}
         <EventDetailedInfo event={event} />
-        {/* EventDetailedChat component */}
         <EventDetailedChat />
       </Grid.Column>
       <Grid.Column width={6}>
-        {/* EventDetailedSideBar component */}
-        <EventDetailedSideBar attendees={event.attendees} />
+        <EventDetailedSidebar attendees={event.attendees} />
       </Grid.Column>
     </Grid>
   );

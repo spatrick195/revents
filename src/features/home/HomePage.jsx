@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Segment,
   Container,
@@ -6,24 +6,24 @@ import {
   Image,
   Button,
   Icon
-} from "semantic-ui-react";
+} from 'semantic-ui-react';
 
-export const HomePage = ({ history }) => {
+const HomePage = ({history}) => {
   return (
-    <Segment inverted textAlign="center" vertical className="masthead">
+    <Segment inverted textAlign='center' vertical className='masthead'>
       <Container text>
-        <Header as="h1" inverted>
+        <Header as='h1' inverted>
           <Image
-            size="massive"
-            src="/assets/reeee.png"
-            alt="logo"
+            size='massive'
+            src='/assets/logo.png'
+            alt='logo'
             style={{ marginBottom: 12 }}
           />
-          REEEEE-vents
+          Re-vents
         </Header>
-        <Button onClick={() => history.push("/events")} size="huge" inverted>
+        <Button size='huge' inverted onClick={() => history.push('/events')}>
           Get started
-          <Icon name="right arrow" inverted />
+          <Icon name='right arrow' inverted />
         </Button>
       </Container>
     </Segment>

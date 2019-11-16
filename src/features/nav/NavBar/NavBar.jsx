@@ -1,46 +1,42 @@
-import React, { Component } from "react";
-import { Menu, Container, Button } from "semantic-ui-react";
-import { NavLink, Link, withRouter } from "react-router-dom";
-import { SignedOutMenu } from "../Menus/SignedOutMenu";
-import { SignedInMenu } from "../Menus/SignedInMenu";
+import React, { Component } from 'react';
+import { Menu, Container, Button } from 'semantic-ui-react';
+import { NavLink, Link, withRouter } from 'react-router-dom';
+import SignedOutMenu from '../Menus/SignedOutMenu';
+import SignedInMenu from '../Menus/SignedInMenu';
 
 class NavBar extends Component {
   state = {
-    authenticated: false
+    authenticated: true
   };
 
-  // set the authentication state to true when called
   handleSignIn = () => this.setState({ authenticated: true });
-  // set the authentication state to false when called
   handleSignOut = () => {
     this.setState({ authenticated: false });
-    this.props.history.push("/");
-  };
+    this.props.history.push('/');
+  } 
 
   render() {
     const { authenticated } = this.state;
     return (
-      <Menu inverted fixed="top">
+      <Menu inverted fixed='top'>
         <Container>
-          <Menu.Item as={NavLink} exact to="/" header>
-            <img src="/assets/logo.png" alt="logo" />
+          <Menu.Item as={NavLink} exact to='/' header>
+            <img src='/assets/logo.png' alt='logo' />
             Re-vents
           </Menu.Item>
-          <Menu.Item exact as={NavLink} to="/events" name="Events" />
-          <Menu.Item as={NavLink} to="/people" name="People" />
-          <Menu.Item as={NavLink} to="/test" name="Test" />
-
+          <Menu.Item as={NavLink} exact to='/events' name='Events' />
+          <Menu.Item as={NavLink} to='/people' name='People' />
+          <Menu.Item as={NavLink} to='/test' name='Test' />
           <Menu.Item>
             <Button
               as={Link}
-              to="/createEvent"
-              floated="right"
+              to='/createEvent'
+              floated='right'
               positive
               inverted
-              content="Create Event"
+              content='Create Event'
             />
           </Menu.Item>
-          {/* If authenticated is true, then display signed in menu, if not show the signed out  menu */}
           {authenticated ? (
             <SignedInMenu signOut={this.handleSignOut} />
           ) : (
@@ -52,5 +48,4 @@ class NavBar extends Component {
   }
 }
 
-// access to this.props.history so it can redirect the user with this.props.history.push.
 export default withRouter(NavBar);
