@@ -1,6 +1,6 @@
-import React from "react";
-import PlacesAutocomplete from "react-places-autocomplete";
-import { Form, Label, Segment, List } from "semantic-ui-react";
+import React from 'react';
+import PlacesAutocomplete from 'react-places-autocomplete';
+import { Form, Label, Segment, List } from 'semantic-ui-react';
 
 const PlaceInput = ({
   input: { value, onChange, onBlur },
@@ -24,7 +24,7 @@ const PlaceInput = ({
             {...getInputProps({ placeholder, onBlur })}
           />
           {touched && error && (
-            <Label basic color="red">
+            <Label basic color='red'>
               {error}
             </Label>
           )}
@@ -32,9 +32,9 @@ const PlaceInput = ({
             <Segment
               style={{
                 marginTop: 0,
-                position: "absolute",
+                position: 'absolute',
                 zIndex: 1000,
-                width: "100%"
+                width: '100%'
               }}
             >
               {loading && <div>Loading...</div>}

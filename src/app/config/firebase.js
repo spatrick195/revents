@@ -4,7 +4,6 @@ import "firebase/database";
 import "firebase/auth";
 import "firebase/storage";
 
-// firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCFyPW4CtcuFzM7xCe-1CjjyTZ2AX4zLAk",
   authDomain: "revents-259207.firebaseapp.com",
@@ -15,7 +14,6 @@ const firebaseConfig = {
   appId: "1:850580946324:web:e8582d42e7e05f18066381"
 };
 
-// initiliaze app with our firebase config object
 firebase.initializeApp(firebaseConfig);
 firebase.firestore();
 
