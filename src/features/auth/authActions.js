@@ -19,14 +19,11 @@ export const login = creds => {
   };
 };
 
-// we also want to spread the new user properties into this as well
-// the async return is implied
 export const registerUser = user => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
 ) => {
-  // get new instance of firebase & firestore API
   const firebase = getFirebase();
   const firestore = getFirestore();
   try {
@@ -41,10 +38,8 @@ export const registerUser = user => async (
       displayName: user.displayName,
       createdAt: firestore.FieldValue.serverTimestamp()
     };
-    // document reference is in the set method, it will create the collection in firestore automatically if no users exist
-
     await firestore.set(`users/${createdUser.user.uid}`, { ...newUser });
-    dispatch(closeModal()); // dispatch the action closeModal, which closes the modal and updates state
+    dispatch(closeModal());
   } catch (error) {
     console.log(error);
     throw new SubmissionError({
@@ -55,10 +50,9 @@ export const registerUser = user => async (
 
 export const socialLogin = selectedProvider => async (
   dispatch,
-  getState, // we just use this arg as a placeholder argument because we need to get to the third required argument
+  getState,
   { getFirebase, getFirestore }
 ) => {
-  // get new instance of firebase & firestore API
   const firebase = getFirebase();
   const firestore = getFirestore();
   try {
@@ -67,7 +61,6 @@ export const socialLogin = selectedProvider => async (
       provider: selectedProvider,
       type: "popup"
     });
-    // if first time login then do:
     if (user.additionalUserInfo.isNewUser) {
       await firestore.set(`users/${user.user.uid}`, {
         displayName: user.profile.displayName,
